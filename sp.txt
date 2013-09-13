@@ -1,0 +1,93 @@
+- email_check(param) [BERES]
+param : string user_email
+return : 1:true, 0:false
+
+- login(param) [BERES]
+param : string user_email, string user_password
+return : user_id:true, 0:false
+
+- register(param) [BERES]
+param : string user_email, string user_password
+return : 1:true, 0:false
+
+- list_posted_job(param) [BERES]
+param : int user_id
+return : 1:true, 0:false
+
+- list_joined_job(param) [BERES]
+param : int user_id
+return : 1:true, 0:false
+
+- join_job(param) [REVISI 29/12 [BERES]]
+param : int user_id, int job_id
+return : 1:true, 0:false
+
+- post_job(param) [BERES]
+param : int user_id, longtext job_detail
+return : 1:true, 0:false
+
+- member_job(param) [BERES]
+param : int job_id
+return : data:true, 0:false
+
+
+
+---- 29/12 ----
+SP BARU :
+- delete_job(param) [BERES]
+#cek dulu apa bener job_id punya nya user_id
+#delete data di tabel user_job juga berdasarkan job_id
+param : int user_id, int job_id
+return : 1:sukses, 0:gagal, -1:bukan punyanya user_id
+
+- admin_status_job(param) [BERES]
+#fitur buat admin
+#job_status = 0 -> gak tampil di web
+#job_status = 1 -> di approve admin, tampil di web
+#job_status = 2 -> job ditutup oleh yang punya, gak tampil di web [NEW]
+param : int job_id, int job_status
+return : 1:sukses, 0:gagal
+
+- status_job(param) [REVISI 03/01]
+#ubah status di tabel user_job
+#status = 0 -> baru join, nunggu di approve yang punya job
+#status = 1 -> udah di approve, lagi ngerjain
+#status = 2 -> udah selese ngerjain
+#status = 3 -> gagal ngerjain
+param : int job_id, int status
+return : 1:sukses, 0:gagal
+
+SP REVISI :
+- join_job(param) [BERES]
+#cek dulu apa sebelumnya udah join atau belum
+param : int user_id, int job_id
+return : 1:true, 0:false, -1:udah join
+
+
+
+---- 30/12 ----
+- sp_search_job(param) [BERES]
+param : varchar(140) keyword
+return : 0:tidak ditemukan, data
+
+- sp_list_joined_job belum dibuat yo
+- eh mon buat sp_list_all_job, sp_list_category_job, list_posted_job, sama list_joined_job bisa di buat gini gak :
+setiap mau nampilin data kamu cek dulu apa user_id x udah join job itu apa belum, biar ntar kalo belum join aku tampilin link join kalo udah gak usah aku tampilin link joinnya
+
+
+
+---- 03/01 ----
+- sp_status_job [BERES]
+kayaknya ada yang salah, kurang satu parameter, user_id.
+jadi di tabel user_job ubah status user_id x pada job_id y dengan status z
+
++--------------------+
+| yang pake history: |
++--------------------+
+| sp_login() [OKE]
+| sp_post_job() [OKE]
+| sp_join_job() [OKE]
+| sp_delete_job() [OKE]
+| sp_admin_status_job()
+| sp_status_job()
++----------------------
